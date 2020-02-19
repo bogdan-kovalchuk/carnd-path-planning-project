@@ -7,10 +7,14 @@
 
 namespace planner {
 
+inline bool validBehaviorInputs(double speed_mph, double speed_limit_mph) {
+  return std::isfinite(speed_mph) && std::isfinite(speed_limit_mph) &&
+         speed_mph >= 0.0 && speed_limit_mph > 0.0;
+}
+
 inline double behaviorCost(double speed_mph, double speed_limit_mph,
                            bool blocked) {
-  if (!std::isfinite(speed_mph) || !std::isfinite(speed_limit_mph) ||
-      speed_mph < 0.0 || speed_limit_mph <= 0.0) {
+  if (!validBehaviorInputs(speed_mph, speed_limit_mph)) {
     return std::numeric_limits<double>::infinity();
   }
 
@@ -21,8 +25,7 @@ inline double behaviorCost(double speed_mph, double speed_limit_mph,
 
 inline double behaviorCostAlternative(double speed_mph, double speed_limit_mph,
                                       bool blocked) {
-  if (!std::isfinite(speed_mph) || !std::isfinite(speed_limit_mph) ||
-      speed_mph < 0.0 || speed_limit_mph <= 0.0) {
+  if (!validBehaviorInputs(speed_mph, speed_limit_mph)) {
     return std::numeric_limits<double>::infinity();
   }
 
