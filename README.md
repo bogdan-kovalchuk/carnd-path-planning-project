@@ -105,6 +105,19 @@ using the following settings:
 
 Please (do your best to) stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html).
 
+## Behavior Cost Options
+
+The planner helper exposes two compact speed objectives for characterization:
+
+| Option | Speed deficit | Blocked penalty | Use |
+| --- | --- | --- | --- |
+| Baseline | linear | 1.0 | preserves the current planner preference |
+| Alternative | squared | 0.5 | reduces sensitivity to small speed gaps |
+
+Both options return an infinite cost for invalid or non-finite speed inputs.
+The simulator continues to use the baseline behavior while the alternative
+remains available for isolated comparison.
+
 ## Project Instructions and Rubric
 
 Note: regardless of the changes you make, your project must be buildable using
