@@ -12,5 +12,9 @@ int main() {
   assert(std::isinf(planner::behaviorCost(-1.0, 50.0, false)));
   assert(std::isinf(planner::behaviorCostAlternative(50.0, 0.0, false)));
   assert(std::isinf(planner::behaviorCostAlternative(50.0, NAN, false)));
+  assert(planner::vehicleAheadWithin(100.0, 120.0));
+  assert(!planner::vehicleAheadWithin(100.0, 70.0));
+  assert(planner::collisionRisk(100.0, 6.0, 120.0, 7.5));
+  assert(!planner::collisionRisk(100.0, 6.0, 120.0, 9.0));
   return 0;
 }
