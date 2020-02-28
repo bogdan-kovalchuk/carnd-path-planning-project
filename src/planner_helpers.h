@@ -52,6 +52,23 @@ inline bool collisionRisk(double ego_s, double ego_d, double other_s,
          std::fabs(ego_d - other_d) < lateral_range;
 }
 
+inline bool collisionRiskAlternative(double ego_s, double ego_d,
+                                     double ego_speed, double other_s,
+                                     double other_d, double other_speed,
+                                     double horizon = 1.0,
+                                     double longitudinal_range = 5.0,
+                                     double lateral_range = 2.0) {
+  if (!std::isfinite(ego_speed) || !std::isfinite(other_speed) ||
+      ego_speed < 0.0 || other_speed < 0.0 || !std::isfinite(horizon) ||
+      horizon < 0.0) {
+    return false;
+  }
+
+  return collisionRisk(ego_s + ego_speed * horizon, ego_d,
+                       other_s + other_speed * horizon, other_d,
+                       longitudinal_range, lateral_range);
+}
+
 }  // namespace planner
 
 #endif  // PLANNER_HELPERS_H

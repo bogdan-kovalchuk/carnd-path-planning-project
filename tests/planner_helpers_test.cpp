@@ -16,5 +16,9 @@ int main() {
   assert(!planner::vehicleAheadWithin(100.0, 70.0));
   assert(planner::collisionRisk(100.0, 6.0, 120.0, 7.5));
   assert(!planner::collisionRisk(100.0, 6.0, 120.0, 9.0));
+  assert(planner::collisionRiskAlternative(100.0, 6.0, 20.0,
+                                           120.0, 6.0, 0.0));
+  assert(!planner::collisionRiskAlternative(100.0, 6.0, 20.0,
+                                            120.0, 6.0, 20.0));
   return 0;
 }
