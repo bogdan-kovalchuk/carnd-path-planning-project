@@ -20,5 +20,12 @@ int main() {
                                            120.0, 6.0, 0.0));
   assert(!planner::collisionRiskAlternative(100.0, 6.0, 20.0,
                                             120.0, 6.0, 20.0));
+  assert(!planner::collisionRisk(100.0, 6.0, 130.0, 6.0));
+  assert(!planner::collisionRisk(100.0, 6.0, 120.0, 8.0));
+  assert(!planner::collisionRisk(NAN, 6.0, 120.0, 6.0));
+  assert(!planner::collisionRiskAlternative(100.0, 6.0, -1.0,
+                                            120.0, 6.0, 0.0));
+  assert(!planner::collisionRiskAlternative(100.0, 6.0, 20.0,
+                                            120.0, 6.0, 0.0, NAN));
   return 0;
 }
