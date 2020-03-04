@@ -6,6 +6,7 @@
 #include "Eigen-3.3/Eigen/Core"
 #include "Eigen-3.3/Eigen/QR"
 #include "helpers.h"
+#include "planner_helpers.h"
 #include "json.hpp"
 #include "spline.h"
 
@@ -121,27 +122,25 @@ int main() {
 
                         check_car_s += ((double) prev_size * 0.02 * check_speed);
 
-                        if (d < (2 + 4 * lane + 2) && d > (2 + 4 * lane - 2)) {
-                            if ((check_car_s > car_s) && ((check_car_s - car_s) < 30)) {
-                                too_close = true;
-                            }
+                        if (planner::collisionRisk(car_s, 2 + 4 * lane,
+                                                   check_car_s, d) &&
+                            planner::vehicleAheadWithin(car_s, check_car_s)) {
+                            too_close = true;
                         }
 
                         if (lane != 0) {
-                            if (d < (2 + 4 * (lane - 1) + 2) && d > (2 + 4 * (lane - 1) - 2)) {
-                                if (abs(check_car_s - car_s) < 30) {
-                                    left_lane_free = false;
-                                }
+                            if (planner::collisionRisk(car_s, 2 + 4 * (lane - 1),
+                                                       check_car_s, d)) {
+                                left_lane_free = false;
                             }
                         } else {
                             left_lane_free = false;
                         }
 
                         if (lane != 2) {
-                            if (d < (2 + 4 * (lane + 1) + 2) && d > (2 + 4 * (lane + 1) - 2)) {
-                                if (abs(check_car_s - car_s) < 30) {
-                                    right_lane_free = false;
-                                }
+                            if (planner::collisionRisk(car_s, 2 + 4 * (lane + 1),
+                                                       check_car_s, d)) {
+                                right_lane_free = false;
                             }
                         } else {
                             right_lane_free = false;
