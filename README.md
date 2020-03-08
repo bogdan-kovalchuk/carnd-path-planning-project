@@ -118,6 +118,14 @@ Both options return an infinite cost for invalid or non-finite speed inputs.
 The simulator continues to use the baseline behavior while the alternative
 remains available for isolated comparison.
 
+## Collision Predicate Options
+
+The baseline predicate matches the simulator's current safety window: strict
+longitudinal and lateral thresholds around the ego vehicle. The predictive
+alternative projects both vehicles over a short horizon and uses a tighter
+longitudinal threshold, which can flag a closing encounter before the current
+positions overlap. Invalid inputs return a safe negative result.
+
 ## Project Instructions and Rubric
 
 Note: regardless of the changes you make, your project must be buildable using
