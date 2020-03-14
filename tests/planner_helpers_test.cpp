@@ -27,5 +27,12 @@ int main() {
                                             120.0, 6.0, 0.0));
   assert(!planner::collisionRiskAlternative(100.0, 6.0, 20.0,
                                             120.0, 6.0, 0.0, NAN));
+  assert(planner::validLane(0));
+  assert(planner::validLane(2));
+  assert(!planner::validLane(-1));
+  assert(planner::inLane(6.0, 1));
+  assert(!planner::inLane(4.0, 1));
+  assert(planner::preferredLaneChange(1, true, true) == 0);
+  assert(planner::preferredLaneChange(0, true, true) == 1);
   return 0;
 }

@@ -7,6 +7,10 @@
 
 namespace planner {
 
+constexpr int kLaneCount = 3;
+constexpr double kLaneWidth = 4.0;
+constexpr double kLaneCenterOffset = 2.0;
+
 inline bool validBehaviorInputs(double speed_mph, double speed_limit_mph) {
   return std::isfinite(speed_mph) && std::isfinite(speed_limit_mph) &&
          speed_mph >= 0.0 && speed_limit_mph > 0.0;
@@ -67,6 +71,42 @@ inline bool collisionRiskAlternative(double ego_s, double ego_d,
   return collisionRisk(ego_s + ego_speed * horizon, ego_d,
                        other_s + other_speed * horizon, other_d,
                        longitudinal_range, lateral_range);
+}
+
+inline bool validLane(int lane) {
+  return lane >= 0 && lane < kLaneCount;
+}
+
+inline double laneCenter(int lane) {
+  return validLane(lane)
+             ? kLaneCenterOffset + kLaneWidth * lane
+             : std::numeric_limits<double>::quiet_NaN();
+}
+
+inline bool inLane(double d, int lane) {
+  const double center = laneCenter(lane);
+  return std::isfinite(d) && std::isfinite(center) &&
+         d > center - kLaneWidth / 2.0 && d < center + kLaneWidth / 2.0;
+}
+
+inline bool canChangeLane(int current_lane, int target_lane,
+                          bool target_free) {
+  return validLane(current_lane) && validLane(target_lane) &&
+         std::abs(target_lane - current_lane) == 1 && target_free;
+}
+
+inline int preferredLaneChange(int current_lane, bool left_free,
+                               bool right_free) {
+  if (!validLane(current_lane)) {
+    return current_lane;
+  }
+  if (canChangeLane(current_lane, current_lane - 1, left_free)) {
+    return current_lane - 1;
+  }
+  if (canChangeLane(current_lane, current_lane + 1, right_free)) {
+    return current_lane + 1;
+  }
+  return current_lane;
 }
 
 }  // namespace planner
