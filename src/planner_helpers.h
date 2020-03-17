@@ -109,6 +109,22 @@ inline int preferredLaneChange(int current_lane, bool left_free,
   return current_lane;
 }
 
+inline int bestLaneChange(int current_lane, double left_gap, double right_gap,
+                          double minimum_gap = 30.0) {
+  if (!validLane(current_lane) || !std::isfinite(left_gap) ||
+      !std::isfinite(right_gap) || !std::isfinite(minimum_gap) ||
+      minimum_gap <= 0.0) {
+    return current_lane;
+  }
+
+  const bool left_free = left_gap >= minimum_gap;
+  const bool right_free = right_gap >= minimum_gap;
+  if (left_free && right_free) {
+    return left_gap >= right_gap ? current_lane - 1 : current_lane + 1;
+  }
+  return preferredLaneChange(current_lane, left_free, right_free);
+}
+
 }  // namespace planner
 
 #endif  // PLANNER_HELPERS_H
