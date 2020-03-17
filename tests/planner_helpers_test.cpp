@@ -34,5 +34,7 @@ int main() {
   assert(!planner::inLane(4.0, 1));
   assert(planner::preferredLaneChange(1, true, true) == 0);
   assert(planner::preferredLaneChange(0, true, true) == 1);
+  assert(planner::bestLaneChange(1, 45.0, 35.0) == 0);
+  assert(planner::bestLaneChange(1, 35.0, 45.0) == 2);
   return 0;
 }
