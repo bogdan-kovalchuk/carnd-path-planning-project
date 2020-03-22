@@ -149,8 +149,8 @@ int main() {
 
                     if (too_close) {
                         ref_vel -= .224;
-                        if (left_lane_free) { lane--; }
-                        else if (right_lane_free) { lane++; }
+                        lane = planner::preferredLaneChange(
+                            lane, left_lane_free, right_lane_free);
                     } else if (ref_vel < 49.5) {
                         ref_vel += 0.224;
                     }
