@@ -126,6 +126,14 @@ alternative projects both vehicles over a short horizon and uses a tighter
 longitudinal threshold, which can flag a closing encounter before the current
 positions overlap. Invalid inputs return a safe negative result.
 
+## Lane Change Options
+
+The simulator keeps the baseline left-first policy and rejects targets outside
+the three lane indices. The alternative compares measured left and right gaps,
+selects the larger gap when both meet the minimum, and falls back to the
+baseline preference when only one side is available. Invalid gaps and exact
+lane boundaries are rejected.
+
 ## Project Instructions and Rubric
 
 Note: regardless of the changes you make, your project must be buildable using
